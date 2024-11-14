@@ -8,45 +8,40 @@ def get_card_name(card):
     value = value_names[card % 13]
     suit = suit_names[card // 13]
     return f"{value} {suit}"
+
 def is_pair(hand):
     values = [card % 13 for card in hand]
     return len(set(values)) < len(values)
-
 
 def is_three_of_a_kind(hand):
     values = [card % 13 for card in hand]
     return any(values.count(v) == 3 for v in values)
 
-
 def is_straight(hand):
     values = sorted([card % 13 for card in hand])
     return values == list(range(values[0], values[0] + 5))
-#wie beim Baschen Straße
 
 def is_flush(hand):
     suits = [card // 13 for card in hand]
     return len(set(suits)) == 1
-#die gleiche Farbe
 
 def is_full_house(hand):
     values = [card % 13 for card in hand]
     return len(set(values)) == 2 and any(values.count(v) == 3 for v in values)
-#Kombination aus einem Paar und einem Drilling
 
 def is_four_of_a_kind(hand):
     values = [card % 13 for card in hand]
     return any(values.count(v) == 4 for v in values)
-#4 mal die gleiche Zahl
 
 def is_royal_flush(hand):
     values = sorted([card % 13 for card in hand])
     suits = [card // 13 for card in hand]
     return values == [8, 9, 10, 11, 12] and len(set(suits)) == 1
-#alle heftigen Karten in der selben Farbe
+
 def test_combination(hand):
-    if is_straight(hand):
+    if is_royal_flush(hand):
         return "Royal Flush"
-    if is_four_of_a_kind(hand):
+    elif is_four_of_a_kind(hand):
         return "Vierling"
     elif is_full_house(hand):
         return "Full House"
@@ -61,7 +56,6 @@ def test_combination(hand):
     else:
         return "Nichts"
 
-
 def simulate_games(num_games):
     results = {
         "Royal Flush": 0,
@@ -74,39 +68,38 @@ def simulate_games(num_games):
         "Nichts": 0
     }
 
-    for _ in range(num_games):
-        deck = list(range(52))
-        random.shuffle(deck)
-        hand = random.sample(deck, 5)
-        combination = test_combination(hand)
-        results[combination] += 1
-        hand_names = [get_card_name(card) for card in hand]
-        print(hand_names)
-        print(combination)
+    try:
+        for _ in range(num_games):
+            deck = list(range(52))
+            random.shuffle(deck)
+            hand = random.sample(deck, 5)
+            combination = test_combination(hand)
+            results[combination] += 1
+            hand_names = [get_card_name(card) for card in hand]
+            print(hand_names)
+            print(combination)
+    except Exception as e:
+        print("Ein Fehler ist während der Spielsimulation aufgetreten:", e)
     return results
 
-
 def plot_results(results, num_games):
-    labels = list(results.keys())
-    counts = [results[combination] for combination in labels]
-    percentages = [(count / num_games) * 100 for count in counts]
+    try:
+        labels = list(results.keys())
+        counts = [results[combination] for combination in labels]
+        percentages = [(count / num_games) * 100 for count in counts]
 
-    plt.bar(labels, percentages, color='skyblue')
-    plt.xlabel('Kombination')
-    plt.ylabel('Prozentualer Anteil (%)')
-
-
-    plt.xticks(rotation=45)
-
-    plt.title(f'Pokerkombinationen aus {num_games} Spielen')
-    plt.tight_layout()
-    plt.show()
-
-
+        plt.bar(labels, percentages, color='skyblue')
+        plt.xlabel('Kombination')
+        plt.ylabel('Prozentualer Anteil (%)')
+        plt.xticks(rotation=45)
+        plt.title(f'Pokerkombinationen aus {num_games} Spielen')
+        plt.tight_layout()
+        plt.show()
+    except Exception as e:
+        print("Ein Fehler ist beim Plotten der Ergebnisse aufgetreten:", e)
 
 if __name__ == '__main__':
-    num_games = int(input('Anzahl der Durchgänge?: '))
-    results = simulate_games(num_games)
-    plot_results(results, num_games)
 
-
+        num_games = int(input('Anzahl der Durchgänge?: '))
+        results = simulate_games(num_games)
+        plot_results(results, num_games)
