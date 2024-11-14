@@ -1,8 +1,7 @@
 import random
 import matplotlib.pyplot as plt
 
-value_names = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"]
-suit_names = ["Kreuze", "Pik", "Herz", "Karo"]
+
 
 def get_card_name(card):
     value = value_names[card % 13]
@@ -41,6 +40,7 @@ def is_royal_flush(hand):
 def test_combination(hand):
     if is_royal_flush(hand):
         return "Royal Flush"
+
     elif is_four_of_a_kind(hand):
         return "Vierling"
     elif is_full_house(hand):
@@ -99,7 +99,8 @@ def plot_results(results, num_games):
         print("Ein Fehler ist beim Plotten der Ergebnisse aufgetreten:", e)
 
 if __name__ == '__main__':
-
+        value_names = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"]
+        suit_names = ["Kreuze", "Pik", "Herz", "Karo"]
         num_games = int(input('Anzahl der Durchgänge?: '))
         results = simulate_games(num_games)
         plot_results(results, num_games)
