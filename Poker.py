@@ -56,6 +56,7 @@ def test_combination(hand):
     else:
         return "Nichts"
 
+
 def simulate_games(num_games):
     results = {
         "Royal Flush": 0,
@@ -88,6 +89,9 @@ def plot_results(results, num_games):
         counts = [results[combination] for combination in labels]
         percentages = [(count / num_games) * 100 for count in counts]
 
+        for percentage in percentages:
+            print(f"{percentage:.2f}%")
+
         plt.bar(labels, percentages, color='skyblue')
         plt.xlabel('Kombination')
         plt.ylabel('Prozentualer Anteil (%)')
@@ -103,4 +107,6 @@ if __name__ == '__main__':
         suit_names = ["Kreuze", "Pik", "Herz", "Karo"]
         num_games = int(input('Anzahl der Durchgänge?: '))
         results = simulate_games(num_games)
+
         plot_results(results, num_games)
+
