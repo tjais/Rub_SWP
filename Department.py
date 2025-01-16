@@ -53,9 +53,9 @@ class Department:
 class Company:
     def __init__(self, name, departments: list[Department]):
         if not isinstance(name, str) or not name.strip():
-            raise ValueError("Company name must be a non-empty string.")  # Validierung des Firmennamens
+            raise ValueError("Company name must be a non-empty string.")
         if not isinstance(departments, list) or not all(isinstance(d, Department) for d in departments):
-            raise TypeError("Departments must be a list of Department instances.")  # Validierung der Abteilungsliste
+            raise TypeError("Departments must be a list of Department instances.")
 
         self.name = name.strip()
         self.departments = departments
@@ -71,7 +71,7 @@ class Company:
 
     def department_with_most_employees(self):
         if not self.departments:
-            raise ValueError("No departments available in the company.")  # Überprüfung auf leere Abteilungen
+            raise ValueError("No departments available in the company.")
         max_department = max(self.departments, key=lambda d: d.employee_count())
         return max_department.name
 
@@ -86,7 +86,7 @@ class Company:
         )
         total = male_count + female_count
         if total == 0:
-            return {"male": 0, "female": 0}  # Keine Mitarbeiter vorhanden
+            return {"male": 0, "female": 0}
         male_percentage = (male_count / total) * 100
         female_percentage = (female_count / total) * 100
         return {"male": male_percentage, "female": female_percentage}
@@ -110,7 +110,6 @@ if __name__ == '__main__':
 
         company = Company("TechCorp", [dep1, dep2])
 
-        # Ausgaben
         print(company)
         print(f"Total employees: {company.count_employees()}")
         print(f"Total managers: {company.count_managers()}")
@@ -121,4 +120,4 @@ if __name__ == '__main__':
         print(dep1)
         print(dep2)
     except Exception as e:
-        print(f"An error occurred: {e}")  # Allgemeine Fehlerbehandlung für Testzwecke
+        print(f"An error occurred: {e}")
